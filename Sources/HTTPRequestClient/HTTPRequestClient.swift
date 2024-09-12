@@ -41,14 +41,14 @@ extension HTTPRequestClient {
     )
   }
 
-  public func send<Success, Failure>(
+  public func send<T, ServerError>(
     _ request: URLRequest,
     decoder: JSONDecoder = .init(),
     urlSession: URLSession = .shared
-  ) async throws -> Result<Success, Failure>
+  ) async throws -> Response<T, ServerError>
   where
-    Success: Decodable,
-    Failure: Decodable
+    T: Decodable,
+    ServerError: Swift.Error & Decodable
   {
     let (data, response, requestID) = try await send(
       request,
@@ -59,15 +59,27 @@ extension HTTPRequestClient {
 
     switch response.statusCode {
     case 200..<300:
-      if Success.self is EmptyResponse.Type {
-        return .success(EmptyResponse() as! Success)
+      if T.self is EmptyResponse.Type {
+        return .init(
+          value: EmptyResponse() as! T,
+          response: response,
+          requestID: requestID
+        )
       }
 
       do {
-        return try .success(decoder.decode(Success.self, from: data))
+        return .init(
+          value: try decoder.decode(T.self, from: data),
+          response: response,
+          requestID: requestID
+        )
       } catch let error as DecodingError {
         errorContainer = .decodingError(requestID, error)
-        return .failure(try decoder.decode(Failure.self, from: data))
+        return .init(
+          error: try decoder.decode(ServerError.self, from: data),
+          response: response,
+          requestID: requestID
+        )
       } catch {
         switch errorContainer {
         case .decodingError: break
@@ -92,7 +104,7 @@ extension HTTPRequestClient {
     _ request: URLRequest,
     decoder: JSONDecoder = .init(),
     urlSession: URLSession = .shared
-  ) async throws -> T
+  ) async throws -> SuccessResponse<T>
   where T: Decodable {
     let (data, response, requestID) = try await send(
       request,
@@ -104,11 +116,19 @@ extension HTTPRequestClient {
     switch response.statusCode {
     case 200..<300:
       if T.self is EmptyResponse.Type {
-        return EmptyResponse() as! T
+        return .init(
+          value: EmptyResponse() as! T,
+          response: response,
+          requestID: requestID
+        )
       }
 
       do {
-        return try decoder.decode(T.self, from: data)
+        return .init(
+          value: try decoder.decode(T.self, from: data),
+          response: response,
+          requestID: requestID
+        )
       } catch let error as DecodingError {
         errorContainer = .decodingError(requestID, error)
         throw errorContainer
@@ -128,16 +148,16 @@ extension HTTPRequestClient {
     }
   }
 
-  public func send<Success, Failure>(
+  public func send<T, ServerError>(
     _ request: Request,
     baseURL: String,
     urlSession: URLSession = .shared,
     cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
     timeoutInterval: TimeInterval = 60
-  ) async throws -> Result<Success, Failure>
+  ) async throws -> Response<T, ServerError>
   where
-    Success: Decodable,
-    Failure: Decodable
+    T: Decodable,
+    ServerError: Swift.Error & Decodable
   {
     try await send(
       request.urlRequest(
@@ -156,7 +176,7 @@ extension HTTPRequestClient {
     urlSession: URLSession = .shared,
     cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
     timeoutInterval: TimeInterval = 60
-  ) async throws -> T
+  ) async throws -> SuccessResponse<T>
   where T: Decodable {
     try await send(
       request.urlRequest(

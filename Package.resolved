@@ -1,5 +1,5 @@
 {
-  "originHash" : "52f70a76506c7d9791f0bfd5d24f03b18dc851502cda8c7039ae52f51651ae7f",
+  "originHash" : "c66221f4c832ce6f2a6b66ac127761299c1f252cd9172701ef4fce26fddb68c3",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -17,15 +17,6 @@
       "state" : {
         "revision" : "2bae20e0002b6a766628283c6b0616042f2b4c7b",
         "version" : "1.0.3"
-      }
-    },
-    {
-      "identity" : "jwtdecode.swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/auth0/JWTDecode.swift",
-      "state" : {
-        "revision" : "58af7278797871e460d79496621b3e5366b865b2",
-        "version" : "3.1.0"
       }
     },
     {
