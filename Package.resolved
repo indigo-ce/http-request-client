@@ -1,5 +1,5 @@
 {
-  "originHash" : "c66221f4c832ce6f2a6b66ac127761299c1f252cd9172701ef4fce26fddb68c3",
+  "originHash" : "5a8bd921a7c892461f99979158dc0c5ab0a5626199dc533882b27d532a034194",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "2bae20e0002b6a766628283c6b0616042f2b4c7b",
         "version" : "1.0.3"
+      }
+    },
+    {
+      "identity" : "pulse",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kean/Pulse.git",
+      "state" : {
+        "revision" : "7b36d6f11841cf3c428a4c1a5a37fe4a23ff3138",
+        "version" : "5.0.0"
       }
     },
     {

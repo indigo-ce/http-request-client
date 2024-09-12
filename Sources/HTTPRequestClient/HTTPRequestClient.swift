@@ -2,6 +2,7 @@ import Dependencies
 import DependenciesMacros
 import Foundation
 import HTTPRequestBuilder
+import Pulse
 
 #if canImport(FoundationNetworking)
   import FoundationNetworking
@@ -12,7 +13,7 @@ public struct HTTPRequestClient: Sendable {
   public let send:
     @Sendable (
       URLRequest,
-      URLSession
+      URLSessionProtocol
     ) async throws -> (Data, HTTPURLResponse, UUID)
 }
 
@@ -202,8 +203,14 @@ extension HTTPRequestClient: DependencyKey {
     send: { request, session in
       let id = UUID()
 
+      #if DEBUG
+        let urlSession: URLSessionProtocol = URLSessionProxy(configuration: .default)
+      #else
+        let urlSession = session
+      #endif
+
       do {
-        let (data, response) = try await session.data(for: request)
+        let (data, response) = try await urlSession.data(for: request)
 
         guard
           let httpResponse = response as? HTTPURLResponse
