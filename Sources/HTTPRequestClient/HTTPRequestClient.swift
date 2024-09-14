@@ -76,6 +76,7 @@ extension HTTPRequestClient {
         )
       } catch let error as DecodingError {
         errorContainer = .decodingError(requestID, error)
+
         return .init(
           error: try decoder.decode(ServerError.self, from: data),
           response: response,
