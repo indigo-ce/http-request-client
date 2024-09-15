@@ -26,7 +26,7 @@ extension HTTPRequestClient {
   }
 
   public func send(
-    _ request: Request,
+    _ request: Request = .init(),
     baseURL: String,
     urlSession: URLSession = .shared,
     cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
@@ -152,7 +152,7 @@ extension HTTPRequestClient {
   }
 
   public func send<T, ServerError>(
-    _ request: Request,
+    _ request: Request = .init(),
     baseURL: String,
     urlSession: URLSession = .shared,
     cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
@@ -174,7 +174,7 @@ extension HTTPRequestClient {
   }
 
   public func send<T>(
-    _ request: Request,
+    _ request: Request = .init(),
     baseURL: String,
     decoder: JSONDecoder = .init(),
     urlSession: URLSession = .shared,
