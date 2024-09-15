@@ -30,10 +30,11 @@ extension HTTPRequestClient {
     baseURL: String,
     urlSession: URLSession = .shared,
     cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
-    timeoutInterval: TimeInterval = 60
+    timeoutInterval: TimeInterval = 60,
+    @RequestBuilder middleware: () -> RequestMiddleware = { identity }
   ) async throws -> (Data, HTTPURLResponse, UUID) {
     try await send(
-      request.urlRequest(
+      middleware()(request).urlRequest(
         baseURL: baseURL,
         cachePolicy: cachePolicy,
         timeoutInterval: timeoutInterval
@@ -155,14 +156,15 @@ extension HTTPRequestClient {
     baseURL: String,
     urlSession: URLSession = .shared,
     cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
-    timeoutInterval: TimeInterval = 60
+    timeoutInterval: TimeInterval = 60,
+    @RequestBuilder middleware: () -> RequestMiddleware = { identity }
   ) async throws -> Response<T, ServerError>
   where
     T: Decodable,
     ServerError: Swift.Error & Decodable
   {
     try await send(
-      request.urlRequest(
+      middleware()(request).urlRequest(
         baseURL: baseURL,
         cachePolicy: cachePolicy,
         timeoutInterval: timeoutInterval
@@ -177,11 +179,12 @@ extension HTTPRequestClient {
     decoder: JSONDecoder = .init(),
     urlSession: URLSession = .shared,
     cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
-    timeoutInterval: TimeInterval = 60
+    timeoutInterval: TimeInterval = 60,
+    @RequestBuilder middleware: () -> RequestMiddleware = { identity }
   ) async throws -> SuccessResponse<T>
   where T: Decodable {
     try await send(
-      request.urlRequest(
+      middleware()(request).urlRequest(
         baseURL: baseURL,
         cachePolicy: cachePolicy,
         timeoutInterval: timeoutInterval
