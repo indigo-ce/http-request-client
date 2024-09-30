@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
   name: "HTTPRequestClient",
   platforms: [
-    .macOS(.v12),
+    .macOS(.v13),
     .iOS(.v16),
     .watchOS(.v8),
     .tvOS(.v16),
