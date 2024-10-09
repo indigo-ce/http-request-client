@@ -153,6 +153,7 @@ extension HTTPRequestClient {
 
   public func send<T, ServerError>(
     _ request: Request = .init(),
+    decoder: JSONDecoder = .init(),
     baseURL: String,
     urlSession: URLSession = .shared,
     cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
@@ -169,6 +170,7 @@ extension HTTPRequestClient {
         cachePolicy: cachePolicy,
         timeoutInterval: timeoutInterval
       ),
+      decoder: decoder,
       urlSession: urlSession
     )
   }
