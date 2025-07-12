@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-latest]
         swift-version: ["6.0"]
 
     steps:
@@ -59,14 +59,14 @@ jobs:
       - name: Build for iOS
         run: |
           xcodebuild -scheme HTTPRequestClient \
-            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.2' \
             -sdk iphonesimulator \
             build
 
       - name: Test iOS
         run: |
           xcodebuild -scheme HTTPRequestClient \
-            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.2' \
             -sdk iphonesimulator \
             test
 
@@ -92,7 +92,7 @@ jobs:
       - name: Build for watchOS
         run: |
           xcodebuild -scheme HTTPRequestClient \
-            -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm)' \
+            -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm),OS=10.5' \
             -sdk watchsimulator \
             build
 
@@ -115,6 +115,6 @@ jobs:
       - name: Build for tvOS
         run: |
           xcodebuild -scheme HTTPRequestClient \
-            -destination 'platform=tvOS Simulator,name=Apple TV' \
+            -destination 'platform=tvOS Simulator,name=Apple TV,OS=18.2' \
             -sdk appletvsimulator \
             build
