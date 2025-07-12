@@ -43,6 +43,9 @@ jobs:
       with:
         xcode-version: latest-stable
         
+    - name: List available iOS simulators
+      run: xcrun simctl list devices --json iOS
+        
     - name: Build for iOS
       run: |
         xcodebuild -scheme HTTPRequestClient \
@@ -70,10 +73,13 @@ jobs:
       with:
         xcode-version: latest-stable
         
+    - name: List available watchOS simulators
+      run: xcrun simctl list devices --json watchOS
+        
     - name: Build for watchOS
       run: |
         xcodebuild -scheme HTTPRequestClient \
-          -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm),OS=latest' \
+          -destination 'platform=watchOS Simulator,name=Apple Watch Series 8 (45mm),OS=latest' \
           -sdk watchsimulator \
           build
 
