@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kean/Pulse.git",
       "state" : {
-        "revision" : "d6793206824303ccf19228bdce77d0f270867cd4",
-        "version" : "5.1.1"
+        "revision" : "6125ce7fb51b114ba71b761d18cfd5557923bd4d",
+        "version" : "5.1.4"
       }
     },
     {
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-dependencies",
       "state" : {
-        "revision" : "0fc0255e780bf742abeef29dec80924f5f0ae7b9",
-        "version" : "1.4.1"
+        "revision" : "4c90d6b2b9bf0911af87b103bb40f41771891596",
+        "version" : "1.9.2"
       }
     },
     {
