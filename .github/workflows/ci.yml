@@ -51,6 +51,7 @@ jobs:
         xcodebuild -scheme HTTPRequestClient \
           -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
           -sdk iphonesimulator \
+          ENABLE_USER_SCRIPT_SANDBOXING=NO \
           build
           
     - name: Test iOS
@@ -58,6 +59,7 @@ jobs:
         xcodebuild -scheme HTTPRequestClient \
           -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
           -sdk iphonesimulator \
+          ENABLE_USER_SCRIPT_SANDBOXING=NO \
           test
 
   test-watchos:
@@ -81,6 +83,7 @@ jobs:
         xcodebuild -scheme HTTPRequestClient \
           -destination 'platform=watchOS Simulator,name=Apple Watch Series 8 (45mm),OS=latest' \
           -sdk watchsimulator \
+          ENABLE_USER_SCRIPT_SANDBOXING=NO \
           build
 
   test-tvos:
@@ -101,4 +104,5 @@ jobs:
         xcodebuild -scheme HTTPRequestClient \
           -destination 'platform=tvOS Simulator,name=Apple TV,OS=latest' \
           -sdk appletvsimulator \
+          ENABLE_USER_SCRIPT_SANDBOXING=NO \
           build
