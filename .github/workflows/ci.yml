@@ -59,14 +59,14 @@ jobs:
       - name: Build for iOS
         run: |
           xcodebuild -scheme HTTPRequestClient \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
             -sdk iphonesimulator \
             build
 
       - name: Test iOS
         run: |
           xcodebuild -scheme HTTPRequestClient \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
             -sdk iphonesimulator \
             test
 
@@ -92,7 +92,7 @@ jobs:
       - name: Build for watchOS
         run: |
           xcodebuild -scheme HTTPRequestClient \
-            -destination 'platform=watchOS Simulator,name=Apple Watch Series 8 (45mm),OS=latest' \
+            -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm)' \
             -sdk watchsimulator \
             build
 
@@ -115,6 +115,6 @@ jobs:
       - name: Build for tvOS
         run: |
           xcodebuild -scheme HTTPRequestClient \
-            -destination 'platform=tvOS Simulator,name=Apple TV,OS=latest' \
+            -destination 'platform=tvOS Simulator,name=Apple TV' \
             -sdk appletvsimulator \
             build
