@@ -18,7 +18,7 @@ let package = Package(
   ],
   dependencies: [
     // Dependencies declare other packages that this package depends on.
-    .package(url: "https://github.com/4rays/http-request-builder", from: "1.0.3"),
+    .package(url: "https://github.com/indigo-ce/http-request-builder", from: "1.2.0"),
     .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
     .package(url: "https://github.com/kean/Pulse.git", from: "5.1.4"),
   ],
