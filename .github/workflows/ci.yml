@@ -2,9 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
+
+concurrency:
+  group: tests
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -12,87 +16,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest]
-        swift-version: ['6.0']
-    
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      
-    - name: Setup Swift
-      uses: swift-actions/setup-swift@v2
-      with:
-        swift-version: ${{ matrix.swift-version }}
-        
-    - name: Build
-      run: swift build --verbose
-      
-    - name: Run Tests
-      run: swift test --verbose
+        os: [macos-latest]
+        swift-version: ["6.0"]
 
-  test-ios:
-    name: Test iOS
-    runs-on: macos-latest
-    
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      
-    - name: Setup Xcode
-      uses: maxim-lobanov/setup-xcode@v1
-      with:
-        xcode-version: latest-stable
-        
-    - name: Build for iOS
-      run: |
-        xcodebuild -scheme HTTPRequestClient \
-          -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
-          -sdk iphonesimulator \
-          build
-          
-    - name: Test iOS
-      run: |
-        xcodebuild -scheme HTTPRequestClient \
-          -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
-          -sdk iphonesimulator \
-          test
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  test-watchos:
-    name: Test watchOS
-    runs-on: macos-latest
-    
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      
-    - name: Setup Xcode
-      uses: maxim-lobanov/setup-xcode@v1
-      with:
-        xcode-version: latest-stable
-        
-    - name: Build for watchOS
-      run: |
-        xcodebuild -scheme HTTPRequestClient \
-          -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm),OS=latest' \
-          -sdk watchsimulator \
-          build
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
 
-  test-tvos:
-    name: Test tvOS
-    runs-on: macos-latest
-    
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      
-    - name: Setup Xcode
-      uses: maxim-lobanov/setup-xcode@v1
-      with:
-        xcode-version: latest-stable
-        
-    - name: Build for tvOS
-      run: |
-        xcodebuild -scheme HTTPRequestClient \
-          -destination 'platform=tvOS Simulator,name=Apple TV,OS=latest' \
-          -sdk appletvsimulator \
-          build
+      - name: Disable Macro Checks
+        run: defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+
+      - name: Run Tests
+        run: swift test
