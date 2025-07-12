@@ -1,6 +1,30 @@
-# HTTPRequestClient
+# 🪻 http-request-client
 
 A dependency client that handles HTTP requests in apps using the Swift Composable Architecture (TCA).
+It is part of the [Indigo Stack](https://indigostack.org).
+
+## Installation
+
+Add the following to your `Package.swift` file:
+
+```swift
+dependencies: [
+  .package(url: "https://github.com/indigo-ce/http-request-client", from: "1.0.0")
+]
+```
+
+Then, add `HTTPRequestClient` to your target dependencies:
+
+```swift
+targets: [
+  .target(
+    name: "YourTarget",
+    dependencies: [
+      "HTTPRequestClient"
+    ]
+  )
+]
+```
 
 ## Usage
 
@@ -37,3 +61,7 @@ public func send(
     timeoutInterval: TimeInterval = 60
 ) async throws -> (Data, HTTPURLResponse, UUID)
 ```
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details
