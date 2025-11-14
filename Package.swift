@@ -4,10 +4,10 @@ import PackageDescription
 let package = Package(
   name: "HTTPRequestClient",
   platforms: [
-    .macOS(.v14),
-    .iOS(.v17),
-    .watchOS(.v9),
-    .tvOS(.v17),
+    .macOS(.v15),
+    .iOS(.v18),
+    .watchOS(.v11),
+    .tvOS(.v18),
   ],
   products: [
     // Products define the executables and libraries a package produces, making them visible to other packages.
@@ -19,7 +19,7 @@ let package = Package(
   dependencies: [
     // Dependencies declare other packages that this package depends on.
     .package(url: "https://github.com/indigo-ce/http-request-builder", from: "1.2.0"),
-    .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2"),
+    .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.10.0"),
     .package(url: "https://github.com/kean/Pulse.git", from: "5.1.4"),
   ],
   targets: [
