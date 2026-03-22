@@ -20,7 +20,7 @@ public struct HTTPRequestClient: Sendable {
 extension HTTPRequestClient {
   public func send(
     _ request: URLRequest,
-    urlSession: URLSession = .shared
+    urlSession: URLSessionProtocol = URLSession.shared
   ) async throws -> (Data, HTTPURLResponse, UUID) {
     try await send(request, urlSession)
   }
@@ -28,7 +28,7 @@ extension HTTPRequestClient {
   public func send(
     _ request: Request = .init(),
     baseURL: String,
-    urlSession: URLSession = .shared,
+    urlSession: URLSessionProtocol = URLSession.shared,
     cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
     timeoutInterval: TimeInterval = 60,
     @RequestBuilder middleware: () -> RequestMiddleware = { identity }
@@ -46,7 +46,7 @@ extension HTTPRequestClient {
   public func send<T, ServerError>(
     _ request: URLRequest,
     decoder: JSONDecoder = .init(),
-    urlSession: URLSession = .shared
+    urlSession: URLSessionProtocol = URLSession.shared
   ) async throws -> Response<T, ServerError>
   where
     T: Decodable,
@@ -106,7 +106,7 @@ extension HTTPRequestClient {
   public func send<T>(
     _ request: URLRequest,
     decoder: JSONDecoder = .init(),
-    urlSession: URLSession = .shared
+    urlSession: URLSessionProtocol = URLSession.shared
   ) async throws -> SuccessResponse<T>
   where T: Decodable {
     let (data, response, requestID) = try await send(
@@ -155,7 +155,7 @@ extension HTTPRequestClient {
     _ request: Request = .init(),
     decoder: JSONDecoder = .init(),
     baseURL: String,
-    urlSession: URLSession = .shared,
+    urlSession: URLSessionProtocol = URLSession.shared,
     cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
     timeoutInterval: TimeInterval = 60,
     @RequestBuilder middleware: () -> RequestMiddleware = { identity }
@@ -179,7 +179,7 @@ extension HTTPRequestClient {
     _ request: Request = .init(),
     baseURL: String,
     decoder: JSONDecoder = .init(),
-    urlSession: URLSession = .shared,
+    urlSession: URLSessionProtocol = URLSession.shared,
     cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
     timeoutInterval: TimeInterval = 60,
     @RequestBuilder middleware: () -> RequestMiddleware = { identity }
@@ -209,14 +209,8 @@ extension HTTPRequestClient: DependencyKey {
     send: { request, session in
       let id = UUID()
 
-      #if DEBUG
-        let urlSession: URLSessionProtocol = URLSessionProxy(configuration: .default)
-      #else
-        let urlSession = session
-      #endif
-
       do {
-        let (data, response) = try await urlSession.data(for: request)
+        let (data, response) = try await session.data(for: request)
 
         guard
           let httpResponse = response as? HTTPURLResponse
